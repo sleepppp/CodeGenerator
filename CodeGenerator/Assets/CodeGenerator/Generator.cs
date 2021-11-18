@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 namespace CodeGenerator
 {
     public sealed class Generator
@@ -47,6 +47,25 @@ namespace CodeGenerator
             _worker.Append(Token.EndSmallBracket).Append(Token.EndBigBracket).EndLine();
         }
 
+        public void DeclarationEnum(string enumName,List<string> elementList, List<string> values, AccessorType accessorType = AccessorType.Public)
+        {
+            CheckTab().Append(GetAccessorStr(accessorType)).Space().Append(Keyword.Enum).Space().Append(enumName).EndLine();
+            using(new CodeBlock(this))
+            {
+                for(int i =0; i < elementList.Count; ++i)
+                {
+                    CheckTab().Append(elementList[i]);
+
+                    if(i < values.Count)
+                    {
+                        _worker.Space().Append(Token.Substitute).Space().Append(values[i]);
+                    }
+
+                    _worker.Append(Token.Comma);
+                }
+            }
+        }
+
         public CodeBlock DeclarationClass(string name, AccessorType accessorType = AccessorType.Private,bool isStatic = false, string inheritanceName = null)
         {
             CheckTab().Append(GetAccessorStr(accessorType)).Space();
@@ -64,14 +83,14 @@ namespace CodeGenerator
             return new CodeBlock(this);
         }
 
-        public void DeclarationField(Type type,string fieldName,AccessorType accessorType = AccessorType.Private)
+        public void DeclarationField(string typeName,string fieldName,AccessorType accessorType = AccessorType.Private)
         {
-            CheckTab().Append(GetAccessorStr(accessorType)).Space().Append(type.Name).Space().Append(fieldName).Semicolon().EndLine();
+            CheckTab().Append(GetAccessorStr(accessorType)).Space().Append(typeName).Space().Append(fieldName).Semicolon().EndLine();
         }
 
-        public void DelclarationField(Type type, string fieldName, string initializeValue, AccessorType accessorType = AccessorType.Private)
+        public void DeclarationField(string typeName, string fieldName, string initializeValue, AccessorType accessorType = AccessorType.Private)
         {
-            CheckTab().Append(GetAccessorStr(accessorType)).Space().Append(type.Name).Space().Append(fieldName).Space().
+            CheckTab().Append(GetAccessorStr(accessorType)).Space().Append(typeName).Space().Append(fieldName).Space().
                 Append(Token.Substitute).Space().Append(initializeValue).Semicolon().EndLine();
         }
 
@@ -85,6 +104,11 @@ namespace CodeGenerator
         {
             CheckTab().Append(Token.EndBlock).EndLine();
             RemoveCodeBlockCount();
+        }
+
+        public void SpaceLine()
+        {
+            _worker.EndLine();
         }
 
         Worker Tab()

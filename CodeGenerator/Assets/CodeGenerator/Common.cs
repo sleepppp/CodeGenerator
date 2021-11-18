@@ -50,6 +50,7 @@ namespace CodeGenerator
         public const string Else = "else";
         public const string Const = "const";
         public const string Readonly = "readonly";
+        public const string Enum = "enum";
     }
 
     public enum AccessorType

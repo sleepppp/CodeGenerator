@@ -1,10 +1,26 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace CodeGenerator
 {
     public class MethodInfo
     {
+        public string Name;
+        public AccessorType AccessorType;
+        public string ReturnType;
+        public bool IsStatic;
+        public Dictionary<string, string> Params = new Dictionary<string, string>();
 
+        public void Init(string name, string returnType,AccessorType accessorType = AccessorType.Private,bool isStatic = false)
+        {
+            Name = name;
+            ReturnType = returnType;
+            AccessorType = accessorType;
+            IsStatic = isStatic;
+        }
+
+        public void AddParam(string typeName, string valueName)
+        {
+            Params.Add(typeName, valueName);
+        }
     }
 }

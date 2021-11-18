@@ -8,12 +8,12 @@ namespace CodeGenerator
         public CodeBlock(Generator generator)
         {
             _generator = generator;
-            _generator.AddCodeBlockCount();
+            _generator.StartCodeBlock();
         }
 
         public void Dispose()
         {
-            _generator.RemoveCodeBlockCount();
+            _generator.EndCodeBlock();
         }
     }
 }
