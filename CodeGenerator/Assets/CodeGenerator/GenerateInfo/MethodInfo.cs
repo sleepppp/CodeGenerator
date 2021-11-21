@@ -9,8 +9,9 @@ namespace CodeGenerator
         public string ReturnType;
         public bool IsStatic;
         public Dictionary<string, string> Params = new Dictionary<string, string>();
+        public List<string> Bodys = new List<string>();
 
-        public void Init(string name, string returnType,AccessorType accessorType = AccessorType.Private,bool isStatic = false)
+        public MethodInfo(string name, string returnType,AccessorType accessorType = AccessorType.Private,bool isStatic = false)
         {
             Name = name;
             ReturnType = returnType;
@@ -18,9 +19,16 @@ namespace CodeGenerator
             IsStatic = isStatic;
         }
 
-        public void AddParam(string typeName, string valueName)
+        public MethodInfo AddParam(string typeName, string valueName)
         {
             Params.Add(typeName, valueName);
+            return this;
+        }
+
+        public MethodInfo AddBody(string str)
+        {
+            Bodys.Add(str);
+            return this;
         }
     }
 }

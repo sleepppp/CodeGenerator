@@ -12,7 +12,8 @@ namespace CodeGenerator
         public string FieldName;
         public string StartValue;
 
-        public void Init(string typeName, string fieldName,AccessorType accessorType = AccessorType.Private,string startValue = null,bool isStatic = false, bool isConst = false, bool isReadonly = false)
+        public FieldInfo(string typeName, string fieldName, AccessorType accessorType = AccessorType.Private, 
+            string startValue = null, bool isStatic = false, bool isConst = false, bool isReadonly = false)
         {
             TypeName = typeName;
             FieldName = fieldName;
@@ -21,5 +22,6 @@ namespace CodeGenerator
             IsStatic = isStatic;
             IsReadonly = isReadonly;
         }
+
     }
 }

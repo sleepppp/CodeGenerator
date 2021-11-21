@@ -8,16 +8,24 @@ namespace CodeGenerator
         public AccessorType AccessorType;
         public List<string> ElementNames = new List<string>();
         public List<string> ElementValues = new List<string>();
-
-        public void AddElement(string name)
+        
+        public EnumInfo(string enumName,AccessorType accessorType = AccessorType.Public)
         {
-            ElementNames.Add(name);
+            EnumName = enumName;
+            AccessorType = accessorType;
         }
 
-        public void AddElement(string name, string value)
+        public EnumInfo AddElement(string name)
+        {
+            ElementNames.Add(name);
+            return this;
+        }
+
+        public EnumInfo AddElement(string name, string value)
         {
             ElementNames.Add(name);
             ElementValues.Add(value);
+            return this;
         }
     }
 }

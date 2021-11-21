@@ -19,7 +19,7 @@ namespace CodeGenerator
 
         public void Using(string name)
         {
-            CheckTab().Append(Keyword.Using).Space().Append(name).EndLine();
+            CheckTab().Append(Keyword.Using).Space().Append(name).Semicolon().EndLine();
         }
 
         public CodeBlock Namespace(string name)
@@ -94,6 +94,29 @@ namespace CodeGenerator
                 Append(Token.Substitute).Space().Append(initializeValue).Semicolon().EndLine();
         }
 
+        public void DeclarationMethod(MethodInfo methodInfo)
+        {
+            CheckTab().Append(GetAccessorStr(methodInfo.AccessorType)).Space().Append(methodInfo.ReturnType).Space().Append(methodInfo.Name).Append(Token.StartSmallBracket);
+            Dictionary<string, string> paramList = methodInfo.Params;
+            int i = 0; 
+            foreach(var item in paramList)
+            {
+                _worker.Append(item.Key).Space().Append(item.Value);
+                if (i != paramList.Count - 1)
+                    _worker.Append(Token.Comma);
+                i++;
+            }
+            _worker.Append(Token.EndSmallBracket).EndLine();
+            using (new CodeBlock(this))
+            {
+                List<string> bodyList = methodInfo.Bodys;
+                foreach(var item in bodyList)
+                {
+                    CheckTab().Append(item).EndLine();
+                }
+            }
+        }
+
         public void StartCodeBlock()
         {
             CheckTab().Append(Token.StartBlock).EndLine();
@@ -102,8 +125,8 @@ namespace CodeGenerator
 
         public void EndCodeBlock()
         {
-            CheckTab().Append(Token.EndBlock).EndLine();
             RemoveCodeBlockCount();
+            CheckTab().Append(Token.EndBlock).EndLine();
         }
 
         public void SpaceLine()

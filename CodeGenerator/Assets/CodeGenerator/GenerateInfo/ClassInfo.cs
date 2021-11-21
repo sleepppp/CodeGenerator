@@ -13,12 +13,30 @@ namespace CodeGenerator
         public List<FieldInfo> Fields = new List<FieldInfo>();
         public List<MethodInfo> Methods = new List<MethodInfo>();
 
-        public void Init(string name,AccessorType accessorType = AccessorType.Private,string haritance = null, bool isStatic = false)
+        public ClassInfo(string name,AccessorType accessorType = AccessorType.Private,string haritance = null, bool isStatic = false)
         {
             Name = name;
             AccessorType = accessorType;
             HaritanceName = haritance;
             IsStatic = isStatic;
+        }
+
+        public ClassInfo AddEnum(EnumInfo enumInfo)
+        {
+            Enums.Add(enumInfo);
+            return this;
+        }
+
+        public ClassInfo AddField(FieldInfo fieldInfo)
+        {
+            Fields.Add(fieldInfo);
+            return this;
+        }
+
+        public ClassInfo AddMethod(MethodInfo method)
+        {
+            Methods.Add(method);
+            return this;
         }
     }
 }
